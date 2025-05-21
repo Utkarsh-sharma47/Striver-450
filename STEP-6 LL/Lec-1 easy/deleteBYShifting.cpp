@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 // Definition for singly-linked list (LeetCode format)
@@ -11,7 +11,19 @@ struct ListNode
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-
+void deleteNodeByShifting(ListNode *node)
+{
+    ListNode *temp = node;
+    while (temp->next->next != NULL)
+    {
+        temp->val = temp->next->val;
+        temp = temp->next;
+    }
+    temp->val = temp->next->val;
+    temp->next = NULL;
+    delete (temp->next);
+    return;
+}
 
 // Function to print the linked list
 void printList(ListNode *head)
@@ -34,7 +46,7 @@ int main()
     head->next->next = new ListNode(3);
 
     printList(head);
-    
+    deleteNodeByShifting(head->next);
     printList(head);
 
     // Don't forget to free memory if needed

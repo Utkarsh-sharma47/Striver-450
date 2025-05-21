@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 // Definition for singly-linked list (LeetCode format)
@@ -11,7 +11,36 @@ struct ListNode
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+int lengthOfLoop(ListNode *head)
+{
+    if (!head || !head->next)
+        return 0;
 
+    ListNode *slow = head;
+    ListNode *fast = head;
+
+    // Step 1: Detect if a cycle exists
+    while (fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast)
+        {
+            // Step 2: Found cycle. Count its length.
+            int len = 1;
+            fast = fast->next;
+            while (fast != slow)
+            {
+                fast = fast->next;
+                len++;
+            }
+            return len;
+        }
+    }
+
+    return 0; // No cycle
+}
 
 // Function to print the linked list
 void printList(ListNode *head)
@@ -32,10 +61,12 @@ int main()
     ListNode *head = new ListNode(1);
     head->next = new ListNode(2);
     head->next->next = new ListNode(3);
+    ListNode* temp =head->next->next;
+    temp->next=head;
 
-    printList(head);
+   
+    cout<<lengthOfLoop(head);
     
-    printList(head);
 
     // Don't forget to free memory if needed
     return 0;
